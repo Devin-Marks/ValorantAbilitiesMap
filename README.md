@@ -7,7 +7,7 @@ This is a python application for Valorant Agent abilities.  This application is 
 - Be up-to-date with the information
 - Collaborate with the community for new and updated information
 
-Currently the project only supports Sova, and does not have anything for Split, though this could change
+Currently the project only supports Sova, and only has Bind, I do not have time to add Haven today or split at the time of making this public, I will be adding both of those maps in the next couple days and I am looking for setups for all Agents on all maps, so please PM me on Reddit if you would like to contribute to that.
 
 ###List of future Features:
 - Pulling images from S3 instead of being built into the app(Currently being worked on)
