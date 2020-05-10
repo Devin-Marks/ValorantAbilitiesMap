@@ -2,7 +2,7 @@
 
 This is a python application for Valorant Agent abilities.  The pictures are meant for a quick glance at the setups without having to watch the video.  This application is still a work in progress, and is by no means a finished product.  Make sure to check back shortly for major updates.  When location updates are made for maps, you will not need to redownload the application, but when new maps or agents are added you will.
 
-For the first few releases, it will be a zip directory containing all of the files while I work out some problems with pyInstaller.  If you have any issues please report them in the issues section of this Github page.
+For the first few releases, it will be a zip directory containing all of the files while I work out some problems with pyInstaller.  You start the application by executing 'run.py'.  If you have any issues please report them in the issues section of this Github page.
 
 Current Release: https://github.com/Devin-Marks/ValorantAbilitiesMap/releases/tag/1
 
