@@ -2,6 +2,8 @@
 
 This is a python application for Valorant Agent abilities.  This application is still a work in progress, and is by no means a finished product.
 
+Current Release: https://github.com/Devin-Marks/ValorantAbilitiesMap/releases/tag/1
+
 ### This project has 3 goals:
 - Make it easy to view Agent ability setups
 - Be up-to-date with the information
