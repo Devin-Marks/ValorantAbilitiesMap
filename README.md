@@ -17,3 +17,5 @@ Currently the project only supports Sova, and does not have anything for Split, 
 - Creating a web application out of this, to make access much easier
 
 This is an open source project, and if you would like to contribute, feel free to message me on Reddit /u/Sec-Student
+
+Currently there are no comments in the code, I will be working on that this week.  Ive only been working on this for a couple days.
