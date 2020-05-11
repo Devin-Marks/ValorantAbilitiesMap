@@ -4,7 +4,7 @@ This is a python application for Valorant Agent abilities.  The pictures are mea
 
 If you have any issues please report them in the issues section of this Github page.  Some sub-par antivirus programs will flag the executable release as a virus due to pyInstaller.  I am currently working on this issue.
 
-Current Release: https://github.com/Devin-Marks/ValorantAbilitiesMap/releases/tag/1
+Current Release: https://github.com/Devin-Marks/ValorantAbilitiesMap/releases/
 
 ### This project has 3 goals:
 - Make it quick and easy to view Agent ability setups
