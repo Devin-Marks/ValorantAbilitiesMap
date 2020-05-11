@@ -11,11 +11,11 @@ Current Release: https://github.com/Devin-Marks/ValorantAbilitiesMap/releases/ta
 - Be up-to-date with the information
 - Collaborate with the community for new and updated information
 
-Currently the project only supports Sova, and only has Bind, I do not have time to add Haven today or split at the time of making this public, I will be adding both of those maps in the next couple days and I am looking for setups for all Agents on all maps, so please PM me on Reddit if you would like to contribute to that.  When I do add Haven and Bind, you will not need to redownload the application.
+Currently the project only supports Sova, I will be adding Split in the next couple days and I am looking for setups for all Agents on all maps, so please PM me on Reddit if you would like to contribute to that.
 
 ### List of future Features:
-- Pulling images from S3 instead of being built into the app(Currently being worked on)
-- Adding an agent screen at the beginning, to support more than just Sova(This will be next)
+- Pulling images from S3 instead of being built into the app(Completed)
+- Adding an agent screen at the beginning, to support more than just Sova(Next Release)
 - Creating and adding the files for other agents(Will need community support with this one)
 - Creating collaborative documents for the community to give suggestions for ability setups
 - Creating a web application out of this, to make access much easier
