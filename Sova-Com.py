@@ -13,13 +13,24 @@ class showMap:
     global height
     global width
     global mapName
+    global agentName
     
     def __init__(self, window, mapName):
         self.windowMaster = window
         self.mapName = mapName
+        self.agentName = 'Sova'
+        
+        imgName = 'Images\\' + self.mapName + 'Sides.png'
+        imgPath = resource_path(imgName)
+
+        url = 'https://valmap.s3.amazonaws.com/' + self.mapName + 'Sides.png'
+
+        with urllib.request.urlopen(url) as response, open(imgPath, 'wb') as out_file:
+            data = response.read()
+            out_file.write(data)
+            
         self.windowMaster.title(self.mapName)
 
-        imgName = 'Images\\' + mapName + 'Sides.png'
         imgPath = resource_path(imgName)
         
         cv_img = cvtColor(imread(imgPath), COLOR_BGR2RGB)
@@ -53,7 +64,7 @@ class showMap:
             self.attackerLoc(imgPath)
             
         elif thirdHeight < event.y <= twoThirdHeight:
-            self.windowMaster.title(self.mapName + ' Attacker')
+            self.windowMaster.title(self.mapName + ' Both')
 
             self.bothLoc(imgPath)
 
@@ -64,10 +75,18 @@ class showMap:
             
 
     def attackerLoc(self, imgName):
-        fileName = 'Locations\\' + self.mapName + 'Attacker.csv'
+        imgPath = resource_path(imgName)
+
+        url = 'https://valmap.s3.amazonaws.com/' + self.mapName + '.png'
+
+        with urllib.request.urlopen(url) as response, open(imgPath, 'wb') as out_file:
+            data = response.read()
+            out_file.write(data)
+        
+        fileName = 'Locations\\' + self.agentName + self.mapName + 'Attacker.csv'
         filePath = resource_path(fileName)
 
-        url = 'https://valmap.s3.amazonaws.com/' + self.mapName + 'Attacker.csv'
+        url = 'https://valmap.s3.amazonaws.com/' + self.agentName + '/' + self.agentName+ self.mapName + 'Attacker.csv'
 
         with urllib.request.urlopen(url) as response, open(filePath, 'wb') as out_file:
             data = response.read()
@@ -76,7 +95,7 @@ class showMap:
         self.locs = np.genfromtxt(filePath, delimiter='|', dtype='S400')
         self.locCount = self.locs.shape[0]
 
-        cv_img = cvtColor(imread(imgName), COLOR_BGR2RGB)
+        cv_img = cvtColor(imread(imgPath), COLOR_BGR2RGB)
 
         height, width, ne_channels = cv_img.shape
 
@@ -97,10 +116,17 @@ class showMap:
         
 
     def bothLoc(self, imgName):
-        fileName = 'Locations\\' + self.mapName + 'Attacker.csv'
+        imgPath = resource_path(imgName)
+        url = 'https://valmap.s3.amazonaws.com/' + self.mapName + '.png'
+
+        with urllib.request.urlopen(url) as response, open(imgPath, 'wb') as out_file:
+            data = response.read()
+            out_file.write(data)
+            
+        fileName = 'Locations\\' + self.agentName + self.mapName + 'Attacker.csv'
         filePath = resource_path(fileName)
 
-        url = 'https://valmap.s3.amazonaws.com/' + self.mapName + 'Attacker.csv'
+        url = 'https://valmap.s3.amazonaws.com/' + self.agentName + '/' + self.agentName+ self.mapName + 'Attacker.csv'
 
         with urllib.request.urlopen(url) as response, open(filePath, 'wb') as out_file:
             data = response.read()
@@ -109,9 +135,9 @@ class showMap:
         self.locs = np.genfromtxt(filePath, delimiter='|', dtype='S400')
         self.locCount = self.locs.shape[0]
         
-        fileName = 'Locations\\' + self.mapName + 'Defender.csv'
+        fileName = 'Locations\\' + self.agentName + self.mapName + 'Defender.csv'
         filePath = resource_path(fileName)
-        url = 'https://valmap.s3.amazonaws.com/' + self.mapName + 'Defender.csv'
+        url = 'https://valmap.s3.amazonaws.com/' + self.agentName + '/' + self.agentName+ self.mapName + 'Defender.csv'
 
         with urllib.request.urlopen(url) as response, open(filePath, 'wb') as out_file:
             data = response.read()
@@ -120,7 +146,7 @@ class showMap:
         self.locs2 = np.genfromtxt(filePath, delimiter='|', dtype='S400')
         self.locCount2 = self.locs2.shape[0]
 
-        cv_img = cvtColor(imread(imgName), COLOR_BGR2RGB)
+        cv_img = cvtColor(imread(imgPath), COLOR_BGR2RGB)
 
         height, width, ne_channels = cv_img.shape
 
@@ -143,10 +169,17 @@ class showMap:
         
         
     def defenderLoc(self, imgName):
-        fileName = 'Locations\\' + self.mapName + 'Defender.csv'
+        imgPath = resource_path(imgName)
+        url = 'https://valmap.s3.amazonaws.com/' + self.mapName + '.png'
+
+        with urllib.request.urlopen(url) as response, open(imgPath, 'wb') as out_file:
+            data = response.read()
+            out_file.write(data)
+        
+        fileName = 'Locations\\' + self.agentName + self.mapName + 'Defender.csv'
         filePath = resource_path(fileName)
 
-        url = 'https://valmap.s3.amazonaws.com/' + self.mapName + 'Defender.csv'
+        url = 'https://valmap.s3.amazonaws.com/' + self.agentName + '/' + self.agentName + self.mapName + 'Defender.csv'
 
         with urllib.request.urlopen(url) as response, open(filePath, 'wb') as out_file:
             data = response.read()
@@ -155,7 +188,7 @@ class showMap:
         self.locs = np.genfromtxt(filePath, delimiter='|', dtype='S400')
         self.locCount = self.locs.shape[0]
 
-        cv_img = cvtColor(imread(imgName), COLOR_BGR2RGB)
+        cv_img = cvtColor(imread(imgPath), COLOR_BGR2RGB)
 
         height, width, ne_channels = cv_img.shape
 
@@ -188,8 +221,14 @@ class showMap:
                     message.insert(INSERT, locMessage)
                     message.pack()
                     
-                    picName = 'LocationImages\\' + self.mapName + str(int(self.locs[x,0])) + '.png'
+                    picName = 'LocationImages\\' + self.agentName + self.mapName + str(int(self.locs[x,0])) + '.png'
                     picPath = resource_path(picName)
+                    url = 'https://valmap.s3.amazonaws.com/' + self.agentName + '/' + self.agentName + self.mapName + str(int(self.locs[x,0])) + '.png'
+
+                    with urllib.request.urlopen(url) as response, open(picPath, 'wb') as out_file:
+                        data = response.read()
+                        out_file.write(data)
+                        
                     cv_img = cvtColor(imread(picPath), COLOR_BGR2RGB)
                     height, width, ne_channels = cv_img.shape
                     
@@ -214,8 +253,14 @@ class showMap:
                     message.insert(INSERT, locMessage)
                     message.pack()
                     
-                    picName = 'LocationImages\\' + self.mapName + str(int(self.locs[x,0])) + '.png'
+                    picName = 'LocationImages\\' + self.agentName + self.mapName + str(int(self.locs[x,0])) + '.png'
                     picPath = resource_path(picName)
+                    url = 'https://valmap.s3.amazonaws.com/' + self.agentName + '/' + self.agentName + self.mapName + str(int(self.locs[x,0])) + '.png'
+
+                    with urllib.request.urlopen(url) as response, open(picPath, 'wb') as out_file:
+                        data = response.read()
+                        out_file.write(data)
+                        
                     cv_img = cvtColor(imread(picPath), COLOR_BGR2RGB)
                     height, width, ne_channels = cv_img.shape
                     
@@ -237,8 +282,14 @@ class showMap:
                     message.insert(INSERT, locMessage)
                     message.pack()
                     
-                    picName = 'LocationImages\\' + self.mapName + str(int(self.locs2[x,0])) + '.png'
+                    picName = 'LocationImages\\' + self.agentName + self.mapName + str(int(self.locs[x,0])) + '.png'
                     picPath = resource_path(picName)
+                    url = 'https://valmap.s3.amazonaws.com/' + self.agentName + '/' + self.agentName + self.mapName + str(int(self.locs[x,0])) + '.png'
+
+                    with urllib.request.urlopen(url) as response, open(picPath, 'wb') as out_file:
+                        data = response.read()
+                        out_file.write(data)
+                        
                     cv_img = cvtColor(imread(picPath), COLOR_BGR2RGB)
                     height, width, ne_channels = cv_img.shape
                     
@@ -256,7 +307,15 @@ class getMapChoice:
 
     def __init__(self, window):
         self.window = window
-        imgPath = resource_path("images\MapList.png")
+        imgName = 'Images\\MapList.png'
+        imgPath = resource_path(imgName)
+
+        url = 'https://valmap.s3.amazonaws.com/MapList.png'
+
+        with urllib.request.urlopen(url) as response, open(imgPath, 'wb') as out_file:
+            data = response.read()
+            out_file.write(data)
+
         cv_img = cvtColor(imread(imgPath), COLOR_BGR2RGB)
 
         height, width, ne_channels = cv_img.shape
@@ -285,18 +344,19 @@ class getMapChoice:
             mapWindow = showMap(self.window, 'Split')
 
 def resource_path(relative_path):
-    """ Get absolute path to resource, works for dev and for PyInstaller """
     try:
-        # PyInstaller creates a temp folder and stores path in _MEIPASS
         base_path = sys._MEIPASS
     except Exception:
         base_path = os.path.abspath(".")
 
     return os.path.join(base_path, relative_path)
 
-
+def cleanUp():
+    print('Cleaning Up')
 
 window = Tk()
 window.title('Map Choice')
 
 start = getMapChoice(window)
+
+cleanUp()
