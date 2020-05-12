@@ -11,7 +11,7 @@ Current Release: https://github.com/Devin-Marks/ValorantAbilitiesMap/releases/
 - Be up-to-date with the information
 - Collaborate with the community for new and updated information
 
-Currently the project only supports Sova, I will be adding Split in the next couple days and I am looking for setups for all Agents on all maps, so please PM me on Reddit if you would like to contribute to that.
+I have added the option to choose your agent.  Currently I only have locations for Sova, but I am looking for setups for all Agents on all maps, so please PM me on Reddit if you would like to contribute to that.  I have color coded the Sova setups, so red is for shock arrows and blue is for recon arrows.
 
 ### List of future Features:
 - Pulling images from S3 instead of being built into the app(Completed)
