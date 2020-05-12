@@ -1,11 +1,12 @@
-from tkinter import *
-from cv2 import *
+from tkinter import Tk, Canvas, NW, Button, Toplevel, Text, WORD, INSERT
+from cv2 import cvtColor, imread, COLOR_BGR2RGB
 import numpy as np
 import PIL.Image, PIL.ImageTk
 from csv import *
-import os
+from os.path import join, abspath
 import sys
 import urllib.request
+from pathlib import Path
 
 class showMap:
     global windowMaster
@@ -15,10 +16,10 @@ class showMap:
     global mapName
     global agentName
     
-    def __init__(self, window, mapName):
+    def __init__(self, window, mapName, agent):
         self.windowMaster = window
         self.mapName = mapName
-        self.agentName = 'Sova'
+        self.agentName = agent
         
         imgName = 'Images\\' + self.mapName + 'Sides.png'
         imgPath = resource_path(imgName)
@@ -44,7 +45,7 @@ class showMap:
         photo = PIL.ImageTk.PhotoImage(image = PIL.Image.fromarray(cv_img))
         self.canvas.create_image(0, 0, image=photo, anchor=NW)
 
-        self.B = Button(self.windowMaster, text ="Back", command = lambda: [self.B.destroy(), self.canvas.pack_forget(), getMapChoice(self.windowMaster)])
+        self.B = Button(self.windowMaster, text ="Back", command = lambda: [self.B.destroy(), self.canvas.pack_forget(), getMapChoice(self.windowMaster, self.agentName)])
         self.B.pack()
 
         self.windowMaster.mainloop()
@@ -107,9 +108,12 @@ class showMap:
         canvas.create_image(0, 0, image=photo, anchor=NW)
 
         for x in range(0, self.locCount):
-            canvas.create_rectangle(int(self.locs[x,1]), int(self.locs[x,2]), (int(self.locs[x,1])+12), (int(self.locs[x,2])+12), fill='blue')
+            if (int(self.locs[x,0]) % 2) == 0:
+                canvas.create_rectangle(int(self.locs[x,1]), int(self.locs[x,2]), (int(self.locs[x,1])+12), (int(self.locs[x,2])+12), fill='blue')
+            else:
+                canvas.create_rectangle(int(self.locs[x,1]), int(self.locs[x,2]), (int(self.locs[x,1])+12), (int(self.locs[x,2])+12), fill='red')
 
-        B = Button(self.windowMaster, text ="Back", command = lambda: [B.destroy(), canvas.pack_forget(), self.__init__(self.windowMaster, self.mapName)])
+        B = Button(self.windowMaster, text ="Back", command = lambda: [B.destroy(), canvas.pack_forget(), self.__init__(self.windowMaster, self.mapName, self.agentName)])
         B.pack()
         
         self.windowMaster.mainloop()
@@ -158,11 +162,17 @@ class showMap:
         canvas.create_image(0, 0, image=photo, anchor=NW)
 
         for x in range(0, self.locCount):
-            canvas.create_rectangle(int(self.locs[x,1]), int(self.locs[x,2]), (int(self.locs[x,1])+12), (int(self.locs[x,2])+12), fill='blue')
+            if (int(self.locs[x,0]) % 2) == 0:
+                canvas.create_rectangle(int(self.locs[x,1]), int(self.locs[x,2]), (int(self.locs[x,1])+12), (int(self.locs[x,2])+12), fill='blue')
+            else:
+                canvas.create_rectangle(int(self.locs[x,1]), int(self.locs[x,2]), (int(self.locs[x,1])+12), (int(self.locs[x,2])+12), fill='red')
         for x in range(0, self.locCount2):
-            canvas.create_rectangle(int(self.locs2[x,1]), int(self.locs2[x,2]), (int(self.locs2[x,1])+12), (int(self.locs2[x,2])+12), fill='blue')
+            if (int(self.locs2[x,0]) % 2) == 0:
+                canvas.create_rectangle(int(self.locs2[x,1]), int(self.locs2[x,2]), (int(self.locs2[x,1])+12), (int(self.locs2[x,2])+12), fill='blue')
+            else:
+                canvas.create_rectangle(int(self.locs2[x,1]), int(self.locs2[x,2]), (int(self.locs2[x,1])+12), (int(self.locs2[x,2])+12), fill='red')
 
-        B = Button(self.windowMaster, text ="Back", command = lambda: [B.destroy(), canvas.pack_forget(), self.__init__(self.windowMaster, self.mapName)])
+        B = Button(self.windowMaster, text ="Back", command = lambda: [B.destroy(), canvas.pack_forget(), self.__init__(self.windowMaster, self.mapName, self.agentName)])
         B.pack()
         
         self.windowMaster.mainloop()
@@ -200,9 +210,12 @@ class showMap:
         canvas.create_image(0, 0, image=photo, anchor=NW)
 
         for x in range(0, self.locCount):
-            canvas.create_rectangle(int(self.locs[x,1]), int(self.locs[x,2]), (int(self.locs[x,1])+12), (int(self.locs[x,2])+12), fill='blue')
+            if (int(self.locs[x,0]) % 2) == 0:
+                canvas.create_rectangle(int(self.locs[x,1]), int(self.locs[x,2]), (int(self.locs[x,1])+12), (int(self.locs[x,2])+12), fill='blue')
+            else:
+                canvas.create_rectangle(int(self.locs[x,1]), int(self.locs[x,2]), (int(self.locs[x,1])+12), (int(self.locs[x,2])+12), fill='red')
 
-        B = Button(self.windowMaster, text ="Back", command = lambda: [B.destroy(), canvas.pack_forget(), self.__init__(self.windowMaster, self.mapName)])
+        B = Button(self.windowMaster, text ="Back", command = lambda: [B.destroy(), canvas.pack_forget(), self.__init__(self.windowMaster, self.mapName, self.agentName)])
         B.pack()
         
         self.windowMaster.mainloop()
@@ -282,9 +295,9 @@ class showMap:
                     message.insert(INSERT, locMessage)
                     message.pack()
                     
-                    picName = 'LocationImages\\' + self.agentName + self.mapName + str(int(self.locs[x,0])) + '.png'
+                    picName = 'LocationImages\\' + self.agentName + self.mapName + str(int(self.locs2[x,0])) + '.png'
                     picPath = resource_path(picName)
-                    url = 'https://valmap.s3.amazonaws.com/' + self.agentName + '/' + self.agentName + self.mapName + str(int(self.locs[x,0])) + '.png'
+                    url = 'https://valmap.s3.amazonaws.com/' + self.agentName + '/' + self.agentName + self.mapName + str(int(self.locs2[x,0])) + '.png'
 
                     with urllib.request.urlopen(url) as response, open(picPath, 'wb') as out_file:
                         data = response.read()
@@ -300,13 +313,13 @@ class showMap:
                     canvas.create_image(0, 0, image=photo, anchor=NW)
                     self.windowMaster.mainloop()
 
-            
 
 class getMapChoice:
     global window
 
-    def __init__(self, window):
+    def __init__(self, window, agent):
         self.window = window
+        self.agent = agent
         imgName = 'Images\\MapList.png'
         imgPath = resource_path(imgName)
 
@@ -328,35 +341,98 @@ class getMapChoice:
         photo = PIL.ImageTk.PhotoImage(image = PIL.Image.fromarray(cv_img))
         self.canvas.create_image(0, 0, image=photo, anchor=NW)
 
+        self.B = Button(self.window, text ="Back", command = lambda: [self.B.destroy(), self.canvas.pack_forget(), getAgentChoice(self.window)])
+        self.B.pack()
+        
         window.mainloop()
         
 
     def mapChoice(self, event):
         self.canvas.pack_forget()
+        self.B.destroy()
 
         if 0 <= event.y < 200:
-            mapWindow = showMap(self.window, 'Bind')
+            mapWindow = showMap(self.window, 'Bind', self.agent)
             
         elif 200 <= event.y < 400:
-            mapWindow = showMap(self.window, 'Haven')
+            mapWindow = showMap(self.window, 'Haven', self.agent)
             
         elif 400 <= event.y < 600:
-            mapWindow = showMap(self.window, 'Split')
+            mapWindow = showMap(self.window, 'Split', self.agent)
 
+            
+class getAgentChoice:
+    global window
+
+    def __init__(self, window):
+        self.window = window
+        
+        imgName = 'Images\\AgentList.png'
+        imgPath = resource_path(imgName)
+
+        url = 'https://valmap.s3.amazonaws.com/AgentList.png'
+
+        with urllib.request.urlopen(url) as response, open(imgPath, 'wb') as out_file:
+            data = response.read()
+            out_file.write(data)
+
+        cv_img = cvtColor(imread(imgPath), COLOR_BGR2RGB)
+
+        height, width, ne_channels = cv_img.shape
+
+        self.canvas = Canvas(window, width = width, height = height)
+        self.canvas.bind("<Button 1>", self.agentChoice)
+    
+        self.canvas.pack()
+
+        photo = PIL.ImageTk.PhotoImage(image = PIL.Image.fromarray(cv_img))
+        self.canvas.create_image(0, 0, image=photo, anchor=NW)
+
+        window.mainloop()
+
+    def agentChoice(self, event):
+        self.canvas.pack_forget()
+
+        if 0 <= event.y < 150:
+            agentWindow = getMapChoice(self.window, 'Sova')
+            
+        elif 150 <= event.y < 300:
+            agentWindow = getMapChoice(self.window, 'Viper')
+            
+        elif 300 <= event.y < 450:
+            agentWindow = getMapChoice(self.window, 'Cypher')
+
+        elif 450 <= event.y < 600:
+            agentWindow = getMapChoice(self.window, 'Brimstone')
+
+        elif event.y > 600:
+            updateWindow = Toplevel(self.window)
+            message = Text(updateWindow, height = 6, width=75, wrap=WORD)
+            message.insert(INSERT, 'Please update your application to include new Agents')
+            message.pack()
+
+        
 def resource_path(relative_path):
     try:
         base_path = sys._MEIPASS
     except Exception:
-        base_path = os.path.abspath(".")
+        base_path = abspath(".")
 
-    return os.path.join(base_path, relative_path)
+    return join(base_path, relative_path)
 
-def cleanUp():
-    print('Cleaning Up')
+def startUp():
+    imgDirPath = resource_path('Images')
+    Path(imgDirPath).mkdir(exist_ok=True)
+    
+    locDirPath = resource_path('Locations')
+    Path(locDirPath).mkdir(exist_ok=True)
+    
+    locImgDirPath = resource_path('LocationImages')
+    Path(locImgDirPath).mkdir(exist_ok=True)
 
+    
+startUp()
 window = Tk()
 window.title('Map Choice')
 
-start = getMapChoice(window)
-
-cleanUp()
+start = getAgentChoice(window)
